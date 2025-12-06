@@ -1,17 +1,16 @@
-from functools import reduce
+from math import prod
 
-total_result = 0
-
-with open("input.txt") as f:
-    lines = [line.strip().split() for line in f.readlines()]
+with open("test.txt") as f:
+    lines = f.readlines()
+    number_lines = ([int(i) for i in line.split()] for line in lines[:-1])
 
     operations_mapper = {
-        "+": lambda nums: reduce(lambda x, y: x + y, nums),
-        "*": lambda nums: reduce(lambda x, y: x * y, nums)
+        "+": sum,
+        "*": prod
     }
 
-    for symbol_index in range(len(lines[0])):
-        numbers = [int(lines[num_index][symbol_index]) for num_index in range(len(lines) - 1)]
-        total_result += operations_mapper[lines[-1][symbol_index]](numbers)
+    operations = list(zip(*number_lines))
+    operators = lines[-1].split()
+    total_result = sum(operations_mapper[operator](numbers) for operator, numbers in zip(operators, operations))
 
 print(total_result)

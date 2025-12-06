@@ -1,5 +1,6 @@
 import time
-from functools import reduce
+from math import prod
+
 
 def numbers(inp_lines: list):
     cur_num = ''
@@ -26,13 +27,14 @@ with open("input.txt") as f:
 
 
     operations_mapper = {
-        "+": lambda nums: reduce(lambda x, y: x + y, nums),
-        "*": lambda nums: reduce(lambda x, y: x * y, nums)
+        "+": sum,
+        "*": prod
     }
 
     operators = lines[-1].split()
 
     for i, numbers_col in enumerate(numbers(lines), 1):
+        #iterating over the operators from right to left
         total_result += operations_mapper[operators[-i]](numbers_col)
 
 
